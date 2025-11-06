@@ -14,5 +14,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return 'Hi, this is the Test';
+    return 'Gembi egy fasz';
 });
