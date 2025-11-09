@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,18 +15,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Főoldal
 Route::get('/', function () {
     return view('welcome');
 });
 
+// Dashboard (auth + verified middleware)
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+// Profile route-ok auth middleware-rel
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+// Transaction CRUD (Read rész) route-ok
+Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
+Route::get('/transactions/{id}', [TransactionController::class, 'show'])->name('transactions.show');
+
+// Auth route-ok betöltése (login, register, stb.)
 require __DIR__.'/auth.php';
