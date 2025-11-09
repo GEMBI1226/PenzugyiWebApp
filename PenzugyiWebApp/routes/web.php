@@ -38,9 +38,20 @@ Route::get('/new_transaction', function(){
 })->name('new_transactions');
 Route::post('/new_transaction', [TransactionController::class, 'store'])->name('transactions.store');
 
+
 // Transaction CRUD (Read rész) route-ok
 Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
 Route::get('/transactions/{id}', [TransactionController::class, 'show'])->name('transactions.show');
+
+
+// Szerkesztő űrlap megjelenítése
+Route::get('/transactions/{id}/edit', [TransactionController::class, 'edit'])->name('transactions.edit');
+
+// Tranzakció frissítése
+Route::put('/transactions/{id}', [TransactionController::class, 'update'])->name('transactions.update');
+
+// Tranzakció törlése
+Route::delete('/transactions/{id}', [TransactionController::class, 'destroy'])->name('transactions.destroy');
 
 
 // Auth route-ok betöltése (login, register, stb.)

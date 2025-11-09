@@ -33,30 +33,72 @@ class TransactionController extends Controller
         return view('transaction.show', compact('transaction'));
     }
 
-    // A többi metódus maradhat üresen egyelőre
-    public function create()
-    {
-        //
-    }
-
     public function store(Request $request)
     {
-        //
+    // 1. Validálás
+    $validated = $request->validate([
+        'title' => 'required|string|max:255',
+        'amount' => 'required|numeric',
+        'type' => 'required|string|in:income,expense',
+    ]);
+
+    // 2. Új tranzakció létrehozása
+    $transaction = new \App\Models\Transaction();
+    $transaction->title = $validated['title'];
+    $transaction->amount = $validated['amount'];
+    $transaction->type = $validated['type'];
+
+    // 3. Mentés adatbázisba
+    $transaction->save();
+
+    // 4. Visszairányítás a listához sikerüzenettel
+    return redirect()->route('transactions.index')->with('success', 'Tranzakció sikeresen hozzáadva!');
     }
+
+
 
     public function edit($id)
     {
-        //
+    // Megkeressük a tranzakciót az adatbázisban
+    $transaction = \App\Models\Transaction::findOrFail($id);
+
+    // Megjelenítjük a szerkesztő űrlapot
+    return view('transaction.edit_transaction', compact('transaction'));
     }
 
     public function update(Request $request, $id)
     {
-        //
+    // 1. Validálás
+    $validated = $request->validate([
+        'title' => 'required|string|max:255',
+        'amount' => 'required|numeric',
+        'type' => 'required|string|in:income,expense',
+    ]);
+
+    // 2. Tranzakció lekérése
+    $transaction = \App\Models\Transaction::findOrFail($id);
+
+    // 3. Adatok frissítése
+    $transaction->title = $validated['title'];
+    $transaction->amount = $validated['amount'];
+    $transaction->type = $validated['type'];
+    $transaction->save();
+
+    // 4. Visszairányítás a listához sikerüzenettel
+    return redirect()->route('transactions.index')->with('success', 'Tranzakció sikeresen frissítve!');
     }
 
     public function destroy($id)
     {
-        //
+    // 1. Megkeressük a tranzakciót
+    $transaction = \App\Models\Transaction::findOrFail($id);
+
+    // 2. Töröljük az adatbázisból
+    $transaction->delete();
+
+    // 3. Visszairányítás a listához sikerüzenettel
+    return redirect()->route('transactions.index')->with('success', 'Tranzakció sikeresen törölve!');
     }
+
 }
 

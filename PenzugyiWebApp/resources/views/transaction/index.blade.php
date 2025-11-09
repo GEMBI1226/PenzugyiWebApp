@@ -14,8 +14,20 @@
             <td>{{ $transaction->id }}</td>
             <td>{{ $transaction->amount }}</td>
             <td>{{ $transaction->date }}</td>
-            <td><a href="{{ route('transactions.show', $transaction->id) }}">Részletek</a></td>
+            <td>
+                <a href="{{ route('transactions.show', $transaction->id) }}">Részletek</a>
+                <a href="{{ route('transactions.edit', $transaction->id) }}">Szerkesztés</a>
+                <form action="{{ route('transactions.destroy', $transaction->id) }}" method="POST" style="display:inline;">
+                @csrf
+                @method('DELETE')
+                    <button type="submit" onclick="return confirm('Biztosan törölni szeretnéd ezt a tranzakciót?')">
+                    Törlés
+                    </button>
+                </form>
+            </td>
         </tr>
         @endforeach
     </tbody>
+    
+
 </table>
