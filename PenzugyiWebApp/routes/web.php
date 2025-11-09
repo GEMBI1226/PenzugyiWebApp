@@ -32,9 +32,16 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+//Transaction CRUD (Create rész) route-ok
+Route::get('/new_transaction', function(){
+    return view('transaction.new_transaction');
+})->name('new_transactions');
+Route::post('/new_transaction', [TransactionController::class, 'store'])->name('transactions.store');
+
 // Transaction CRUD (Read rész) route-ok
 Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
 Route::get('/transactions/{id}', [TransactionController::class, 'show'])->name('transactions.show');
+
 
 // Auth route-ok betöltése (login, register, stb.)
 require __DIR__.'/auth.php';

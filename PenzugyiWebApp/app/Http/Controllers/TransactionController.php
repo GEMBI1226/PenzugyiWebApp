@@ -17,7 +17,7 @@ class TransactionController extends Controller
         $transactions = Transaction::all();
 
         // 2. Visszaadjuk a 'transactions.index' view-t, és átadjuk a tranzakciókat
-        return view('transactions.index', compact('transactions'));
+        return view('transaction.index', compact('transactions'));
     }
 
     /**
@@ -30,7 +30,7 @@ class TransactionController extends Controller
         $transaction = Transaction::findOrFail($id);
 
         // 2. Visszaadjuk a 'transactions.show' view-t, és átadjuk a tranzakciót
-        return view('transactions.show', compact('transaction'));
+        return view('transaction.show', compact('transaction'));
     }
 
     // A többi metódus maradhat üresen egyelőre
