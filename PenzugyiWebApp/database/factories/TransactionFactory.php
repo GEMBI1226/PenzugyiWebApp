@@ -2,28 +2,28 @@
 
 namespace Database\Factories;
 
+use App\Models\Transaction;
+use App\Models\Category;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Transaction>
- */
 class TransactionFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition()
-    {
-        return [
-            'account_id' => Account::factory(),
-            'category_id' => Category::factory(),
-            'amount' => $this->faker->randomFloat(2, 10, 10000),
-            'type' => $this->faker->randomElement(['income','expense','transfer']),
-            'description' => $this->faker->sentence(),
-            'date' => $this->faker->date(),
+    protected $model = Transaction::class;
 
+    public function definition(): array
+    {
+        // Először eldöntjük a típust, hogy a kategória és a tranzakció is ugyanolyan legyen
+        $type = fake()->randomElement(['income', 'expense']);
+
+        return [
+            'user_id' => User::factory(),
+            // Olyan kategóriát gyártunk hozzá, aminek a típusa megegyezik a fenti $type-pal
+            'category_id' => Category::factory()->state(['type' => $type]),
+            'amount' => fake()->randomFloat(2, 500, 50000),
+            'type' => $type,
+            'description' => fake()->sentence(),
+            'date' => fake()->dateTimeBetween('-1 year', 'now'),
         ];
     }
 }
