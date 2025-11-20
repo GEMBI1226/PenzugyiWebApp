@@ -7,43 +7,24 @@ use Illuminate\Database\Eloquent\Model;
 
 class Transaction extends Model
 {
-<<<<<<< HEAD:PenzugyiWebApp/PenzugyiWebApp/app/Models/Transaction.php
+    use HasFactory;
 
-    protected $primaryKey = 'transaction_id';
-
-    // Tömegesen kitölthető mezők
     protected $fillable = [
-        'account_id',
+        'user_id',
         'category_id',
+        'name',
         'amount',
         'type',
-        'description',
         'date',
     ];
 
-    // Dátum típusok automatikus konvertálása Carbon objektummá
-    protected $dates = [
-        'date',
-        'created_at',
-        'updated_at',
-    ];
-
-    /**
-     * Kapcsolat az Account modelhez
-     */
-    public function account()
+    public function user()
     {
-        return $this->belongsTo(Account::class, 'account_id');
+        return $this->belongsTo(User::class);
     }
 
-    /**
-     * Kapcsolat a Category modelhez
-     */
     public function category()
     {
-        return $this->belongsTo(Category::class, 'category_id');
+        return $this->belongsTo(Category::class);
     }
-=======
-    use HasFactory;
->>>>>>> f93ccf72466678c964352a4dfea2f71039fddb26:PenzugyiWebApp/app/Models/Transaction.php
 }

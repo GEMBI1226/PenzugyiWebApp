@@ -9,10 +9,19 @@ class Category extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'category_id';
-    protected $fillable = ['user_id', 'name', 'type'];
-    public function user() { return $this->belongsTo(User::class, 'user_id'); }
-    public function transactions() { return $this->hasMany(Transaction::class, 'category_id'); }
+    protected $fillable = [
+        'user_id',
+        'name',
+        'type',
+    ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
 }
-
-
