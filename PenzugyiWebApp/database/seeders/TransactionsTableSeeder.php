@@ -2,27 +2,42 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Transaction;
+use App\Models\Category;
+use App\Models\User;
 
 class TransactionsTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run(): void
     {
-        // Minden számlához létrehozunk tranzakciókat
-        Account::all()->each(function ($account) {
-            // Véletlenszerű kategóriát választunk a felhasználóhoz
-            $categories = Category::where('user_id', $account->user_id)->get();
+        // Lekérjük az összes usert
+        $users = User::all();
 
-            Transaction::factory()->count(10)->create([
-                'account_id' => $account->account_id,
-                'category_id' => $categories->isNotEmpty() ? $categories->random()->category_id : null,
-            ]);
-        });
+        foreach ($users as $user) {
+            // Lekérjük az adott user SAJÁT kategóriáit, típus szerint szétválogatva
+            $incomeCategories = Category::where('user_id', $user->id)->where('type', 'income')->get();
+            $expenseCategories = Category::where('user_id', $user->id)->where('type', 'expense')->get();
+
+            // Ha van bevétel kategóriája, csinálunk neki 5 bevételt
+            if ($incomeCategories->count() > 0) {
+                Transaction::factory()->count(5)->create([
+                    'user_id' => $user->id,
+                    'type' => 'income',
+                    // Véletlenszerűen választunk egyet a user saját bevétel kategóriái közül
+                    'category_id' => fn() => $incomeCategories->random()->category_id,
+                ]);
+            }
+
+            // Ha van kiadás kategóriája, csinálunk neki 10 kiadást
+            if ($expenseCategories->count() > 0) {
+                Transaction::factory()->count(10)->create([
+                    'user_id' => $user->id,
+                    'type' => 'expense',
+                    // Véletlenszerűen választunk egyet a user saját kiadás kategóriái közül
+                    'category_id' => fn() => $expenseCategories->random()->category_id,
+                ]);
+            }
+        }
     }
 }
