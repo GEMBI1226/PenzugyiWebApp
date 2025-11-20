@@ -73,27 +73,34 @@ class TransactionController extends Controller
     {
     // Megkeressük a tranzakciót az adatbázisban
     $transaction = \App\Models\Transaction::findOrFail($id);
+    
+    // Kategóriák lekérése a dropdown-hoz
+    $categories = \App\Models\Category::all();
 
     // Megjelenítjük a szerkesztő űrlapot
-    return view('transaction.edit_transaction', compact('transaction'));
+    return view('transaction.edit_transaction', compact('transaction', 'categories'));
     }
 
     public function update(Request $request, $id)
     {
     // 1. Validálás
     $validated = $request->validate([
-        'title' => 'required|string|max:255',
         'amount' => 'required|numeric',
-        'type' => 'required|string|in:income,expense',
+        'type' => 'required|in:income,expense',
+        'category_id' => 'required|exists:categories,category_id',
+        'description' => 'nullable|string',
+        'date' => 'required|date',
     ]);
 
     // 2. Tranzakció lekérése
     $transaction = \App\Models\Transaction::findOrFail($id);
 
     // 3. Adatok frissítése
-    $transaction->title = $validated['title'];
     $transaction->amount = $validated['amount'];
     $transaction->type = $validated['type'];
+    $transaction->category_id = $validated['category_id'];
+    $transaction->description = $validated['description'];
+    $transaction->date = $validated['date'];
     $transaction->save();
 
     // 4. Visszairányítás a listához sikerüzenettel
