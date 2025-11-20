@@ -10,27 +10,19 @@ class TransactionController extends Controller
 {
     /**
      * Display a listing of the resource.
-     * Összes tranzakció listázása
      */
     public function index()
     {
-        // 1. Lekérjük az összes tranzakciót
         $transactions = Transaction::all();
-
-        // 2. Visszaadjuk a 'transactions.index' view-t, és átadjuk a tranzakciókat
         return view('transaction.index', compact('transactions'));
     }
 
     /**
      * Display the specified resource.
-     * Egy tranzakció részleteinek megjelenítése
      */
     public function show($id)
     {
-        // 1. Lekérjük a tranzakciót az ID alapján, ha nincs találat, 404-et dob
         $transaction = Transaction::findOrFail($id);
-
-        // 2. Visszaadjuk a 'transactions.show' view-t, és átadjuk a tranzakciót
         return view('transaction.show', compact('transaction'));
     }
 
@@ -42,7 +34,7 @@ class TransactionController extends Controller
 
     public function store(Request $request)
     {
-        // 1. Validálás
+        // Validation
         $validated = $request->validate([
             'amount' => 'required|numeric',
             'type' => 'required|in:income,expense',
@@ -51,7 +43,7 @@ class TransactionController extends Controller
             'date' => 'required|date',
         ]);
 
-        // 2. Új tranzakció létrehozása
+        // Create new transaction
         $transaction = new Transaction();
         $transaction->user_id = auth()->id();
         $transaction->amount = $validated['amount'];
@@ -60,64 +52,61 @@ class TransactionController extends Controller
         $transaction->description = $validated['description'];
         $transaction->date = $validated['date'];
 
-        // 3. Mentés adatbázisba
+        // Save to database
         $transaction->save();
 
-        // 4. Visszairányítás a listához sikerüzenettel
-        return redirect()->route('transactions.index')->with('success', 'Tranzakció sikeresen hozzáadva!');
+        // Redirect to list with success message
+        return redirect()->route('transactions.index')->with('success', 'Transaction added successfully!');
     }
-
-
 
     public function edit($id)
     {
-    // Megkeressük a tranzakciót az adatbázisban
-    $transaction = \App\Models\Transaction::findOrFail($id);
-    
-    // Kategóriák lekérése a dropdown-hoz
-    $categories = \App\Models\Category::all();
+        // Find the transaction in the database
+        $transaction = \App\Models\Transaction::findOrFail($id);
+        
+        // Get categories for dropdown
+        $categories = \App\Models\Category::all();
 
-    // Megjelenítjük a szerkesztő űrlapot
-    return view('transaction.edit_transaction', compact('transaction', 'categories'));
+        // Display the edit form
+        return view('transaction.edit_transaction', compact('transaction', 'categories'));
     }
 
     public function update(Request $request, $id)
     {
-    // 1. Validálás
-    $validated = $request->validate([
-        'amount' => 'required|numeric',
-        'type' => 'required|in:income,expense',
-        'category_id' => 'required|exists:categories,category_id',
-        'description' => 'nullable|string',
-        'date' => 'required|date',
-    ]);
+        // Validation
+        $validated = $request->validate([
+            'amount' => 'required|numeric',
+            'type' => 'required|in:income,expense',
+            'category_id' => 'required|exists:categories,category_id',
+            'description' => 'nullable|string',
+            'date' => 'required|date',
+        ]);
 
-    // 2. Tranzakció lekérése
-    $transaction = \App\Models\Transaction::findOrFail($id);
+        // Get transaction
+        $transaction = \App\Models\Transaction::findOrFail($id);
 
-    // 3. Adatok frissítése
-    $transaction->amount = $validated['amount'];
-    $transaction->type = $validated['type'];
-    $transaction->category_id = $validated['category_id'];
-    $transaction->description = $validated['description'];
-    $transaction->date = $validated['date'];
-    $transaction->save();
+        // Update data
+        $transaction->amount = $validated['amount'];
+        $transaction->type = $validated['type'];
+        $transaction->category_id = $validated['category_id'];
+        $transaction->description = $validated['description'];
+        $transaction->date = $validated['date'];
+        $transaction->save();
 
-    // 4. Visszairányítás a listához sikerüzenettel
-    return redirect()->route('transactions.index')->with('success', 'Tranzakció sikeresen frissítve!');
+        // Redirect to list with success message
+        return redirect()->route('transactions.index')->with('success', 'Transaction updated successfully!');
     }
 
     public function destroy($id)
     {
-    // 1. Megkeressük a tranzakciót
-    $transaction = \App\Models\Transaction::findOrFail($id);
+        // Find the transaction
+        $transaction = \App\Models\Transaction::findOrFail($id);
 
-    // 2. Töröljük az adatbázisból
-    $transaction->delete();
+        // Delete from database
+        $transaction->delete();
 
-    // 3. Visszairányítás a listához sikerüzenettel
-    return redirect()->route('transactions.index')->with('success', 'Tranzakció sikeresen törölve!');
+        // Redirect to list with success message
+        return redirect()->route('transactions.index')->with('success', 'Transaction deleted successfully!');
     }
 
 }
-

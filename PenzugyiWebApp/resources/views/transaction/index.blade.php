@@ -2,11 +2,11 @@
     <x-slot name="header">
         <div class="flex justify-between items-center">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Tranzakciók') }}
+                {{ __('Transactions') }}
             </h2>
             <a href="{{ route('transactions.create') }}"
                 class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
-                + Új tranzakció
+                + New Transaction
             </a>
         </div>
     </x-slot>
@@ -28,22 +28,22 @@
                                 <thead class="bg-gray-50">
                                     <tr>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Dátum
+                                            Date
                                         </th>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Kategória
+                                            Category
                                         </th>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Leírás
+                                            Description
                                         </th>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Típus
+                                            Type
                                         </th>
                                         <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Összeg
+                                            Amount
                                         </th>
                                         <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Műveletek
+                                            Actions
                                         </th>
                                     </tr>
                                 </thead>
@@ -63,11 +63,11 @@
                                             <td class="px-6 py-4 whitespace-nowrap">
                                                 @if($transaction->type === 'income')
                                                     <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                                        Bevétel
+                                                        Income
                                                     </span>
                                                 @else
                                                     <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
-                                                        Kiadás
+                                                        Expense
                                                     </span>
                                                 @endif
                                             </td>
@@ -80,19 +80,19 @@
                                                 <div class="flex justify-end gap-2">
                                                     <a href="{{ route('transactions.show', $transaction->id) }}"
                                                         class="text-indigo-600 hover:text-indigo-900">
-                                                        Részletek
+                                                        Details
                                                     </a>
                                                     <a href="{{ route('transactions.edit', $transaction->id) }}"
                                                         class="text-blue-600 hover:text-blue-900">
-                                                        Szerkesztés
+                                                        Edit
                                                     </a>
                                                     <form action="{{ route('transactions.destroy', $transaction->id) }}" method="POST" class="inline">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" 
-                                                            onclick="return confirm('Biztosan törölni szeretnéd ezt a tranzakciót?')"
+                                                            onclick="return confirm('Are you sure you want to delete this transaction?')"
                                                             class="text-red-600 hover:text-red-900">
-                                                            Törlés
+                                                            Delete
                                                         </button>
                                                     </form>
                                                 </div>
@@ -108,12 +108,12 @@
                             <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
-                            <h3 class="mt-2 text-sm font-medium text-gray-900">Nincsenek tranzakciók</h3>
-                            <p class="mt-1 text-sm text-gray-500">Kezdj el egy új tranzakció hozzáadásával.</p>
+                            <h3 class="mt-2 text-sm font-medium text-gray-900">No transactions</h3>
+                            <p class="mt-1 text-sm text-gray-500">Get started by creating a new transaction.</p>
                             <div class="mt-6">
                                 <a href="{{ route('transactions.create') }}"
                                     class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
-                                    + Új tranzakció
+                                    + New Transaction
                                 </a>
                             </div>
                         </div>

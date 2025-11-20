@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Új tranzakció hozzáadása') }}
+            {{ __('Add New Transaction') }}
         </h2>
     </x-slot>
 
@@ -15,13 +15,13 @@
                         <!-- Type Selection -->
                         <div>
                             <label for="type" class="block text-sm font-medium text-gray-700">
-                                Típus
+                                Type
                             </label>
                             <select name="type" id="type" required
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                                <option value="">Válassz típust</option>
-                                <option value="income">Bevétel</option>
-                                <option value="expense">Kiadás</option>
+                                <option value="">Select type</option>
+                                <option value="income">Income</option>
+                                <option value="expense">Expense</option>
                             </select>
                             @error('type')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -31,7 +31,7 @@
                         <!-- Amount -->
                         <div>
                             <label for="amount" class="block text-sm font-medium text-gray-700">
-                                Összeg
+                                Amount
                             </label>
                             <input type="number" name="amount" id="amount" step="0.01" required
                                 value="{{ old('amount') }}"
@@ -44,14 +44,14 @@
                         <!-- Category -->
                         <div>
                             <label for="category_id" class="block text-sm font-medium text-gray-700">
-                                Kategória
+                                Category
                             </label>
                             <select name="category_id" id="category_id" required
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                                <option value="">Válassz kategóriát</option>
+                                <option value="">Select category</option>
                                 @foreach($categories as $category)
                                     <option value="{{ $category->category_id }}" {{ old('category_id') == $category->category_id ? 'selected' : '' }}>
-                                        {{ $category->name }} ({{ $category->type === 'income' ? 'Bevétel' : 'Kiadás' }})
+                                        {{ $category->name }} ({{ $category->type === 'income' ? 'Income' : 'Expense' }})
                                     </option>
                                 @endforeach
                             </select>
@@ -63,7 +63,7 @@
                         <!-- Date -->
                         <div>
                             <label for="date" class="block text-sm font-medium text-gray-700">
-                                Dátum
+                                Date
                             </label>
                             <input type="date" name="date" id="date" required
                                 value="{{ old('date', date('Y-m-d')) }}"
@@ -76,7 +76,7 @@
                         <!-- Description -->
                         <div>
                             <label for="description" class="block text-sm font-medium text-gray-700">
-                                Leírás (opcionális)
+                                Description (optional)
                             </label>
                             <textarea name="description" id="description" rows="3"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">{{ old('description') }}</textarea>
@@ -89,11 +89,11 @@
                         <div class="flex items-center justify-between">
                             <a href="{{ route('transactions.index') }}"
                                 class="text-sm text-gray-600 hover:text-gray-900">
-                                Vissza a listához
+                                Back to list
                             </a>
                             <button type="submit"
                                 class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
-                                Mentés
+                                Save
                             </button>
                         </div>
                     </form>

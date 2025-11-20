@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Tranzakció részletei') }}
+            {{ __('Transaction Details') }}
         </h2>
     </x-slot>
 
@@ -13,11 +13,11 @@
                     <div class="mb-6">
                         @if($transaction->type === 'income')
                             <span class="px-3 py-1 inline-flex text-sm leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                Bevétel
+                                Income
                             </span>
                         @else
                             <span class="px-3 py-1 inline-flex text-sm leading-5 font-semibold rounded-full bg-red-100 text-red-800">
-                                Kiadás
+                                Expense
                             </span>
                         @endif
                     </div>
@@ -25,28 +25,28 @@
                     <!-- Transaction Details -->
                     <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
                         <div class="sm:col-span-1">
-                            <dt class="text-sm font-medium text-gray-500">Összeg</dt>
+                            <dt class="text-sm font-medium text-gray-500">Amount</dt>
                             <dd class="mt-1 text-2xl font-semibold {{ $transaction->type === 'income' ? 'text-green-600' : 'text-red-600' }}">
                                 {{ $transaction->type === 'income' ? '+' : '-' }}{{ number_format($transaction->amount, 0, ',', ' ') }} Ft
                             </dd>
                         </div>
 
                         <div class="sm:col-span-1">
-                            <dt class="text-sm font-medium text-gray-500">Dátum</dt>
+                            <dt class="text-sm font-medium text-gray-500">Date</dt>
                             <dd class="mt-1 text-sm text-gray-900">
-                                {{ \Carbon\Carbon::parse($transaction->date)->format('Y. m. d.') }}
+                                {{ \Carbon\Carbon::parse($transaction->date)->format('M d, Y') }}
                             </dd>
                         </div>
 
                         <div class="sm:col-span-1">
-                            <dt class="text-sm font-medium text-gray-500">Kategória</dt>
+                            <dt class="text-sm font-medium text-gray-500">Category</dt>
                             <dd class="mt-1 text-sm text-gray-900">
                                 {{ $transaction->category->name ?? 'N/A' }}
                             </dd>
                         </div>
 
                         <div class="sm:col-span-1">
-                            <dt class="text-sm font-medium text-gray-500">Tranzakció ID</dt>
+                            <dt class="text-sm font-medium text-gray-500">Transaction ID</dt>
                             <dd class="mt-1 text-sm text-gray-900">
                                 #{{ $transaction->id }}
                             </dd>
@@ -54,7 +54,7 @@
 
                         @if($transaction->description)
                         <div class="sm:col-span-2">
-                            <dt class="text-sm font-medium text-gray-500">Leírás</dt>
+                            <dt class="text-sm font-medium text-gray-500">Description</dt>
                             <dd class="mt-1 text-sm text-gray-900">
                                 {{ $transaction->description }}
                             </dd>
@@ -62,17 +62,17 @@
                         @endif
 
                         <div class="sm:col-span-2">
-                            <dt class="text-sm font-medium text-gray-500">Létrehozva</dt>
+                            <dt class="text-sm font-medium text-gray-500">Created</dt>
                             <dd class="mt-1 text-sm text-gray-900">
-                                {{ $transaction->created_at->format('Y. m. d. H:i') }}
+                                {{ $transaction->created_at->format('M d, Y H:i') }}
                             </dd>
                         </div>
 
                         @if($transaction->updated_at != $transaction->created_at)
                         <div class="sm:col-span-2">
-                            <dt class="text-sm font-medium text-gray-500">Utoljára módosítva</dt>
+                            <dt class="text-sm font-medium text-gray-500">Last Modified</dt>
                             <dd class="mt-1 text-sm text-gray-900">
-                                {{ $transaction->updated_at->format('Y. m. d. H:i') }}
+                                {{ $transaction->updated_at->format('M d, Y H:i') }}
                             </dd>
                         </div>
                         @endif
@@ -82,20 +82,20 @@
                     <div class="mt-8 flex items-center justify-between border-t border-gray-200 pt-6">
                         <a href="{{ route('transactions.index') }}"
                             class="text-sm text-gray-600 hover:text-gray-900">
-                            ← Vissza a listához
+                            ← Back to list
                         </a>
                         <div class="flex gap-3">
                             <a href="{{ route('transactions.edit', $transaction->id) }}"
                                 class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150">
-                                Szerkesztés
+                                Edit
                             </a>
                             <form action="{{ route('transactions.destroy', $transaction->id) }}" method="POST" class="inline">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit"
-                                    onclick="return confirm('Biztosan törölni szeretnéd ezt a tranzakciót?')"
+                                    onclick="return confirm('Are you sure you want to delete this transaction?')"
                                     class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-700 focus:bg-red-700 active:bg-red-900 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150">
-                                    Törlés
+                                    Delete
                                 </button>
                             </form>
                         </div>
