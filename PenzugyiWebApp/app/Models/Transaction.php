@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Transaction extends Model
 {
+<<<<<<< HEAD:PenzugyiWebApp/PenzugyiWebApp/app/Models/Transaction.php
 
     protected $primaryKey = 'transaction_id';
 
@@ -42,4 +43,7 @@ class Transaction extends Model
     {
         return $this->belongsTo(Category::class, 'category_id');
     }
+=======
+    use HasFactory;
+>>>>>>> f93ccf72466678c964352a4dfea2f71039fddb26:PenzugyiWebApp/app/Models/Transaction.php
 }
