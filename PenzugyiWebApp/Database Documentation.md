@@ -1,7 +1,8 @@
 # Database Documentation - Pénzügyi Alkalmazás
 
 Vizuálisan:
-https://imgur.com/a/OUz9V28
+![Uploading image.png…]()
+
 
 ## 1. Users (Felhasználók)
 
@@ -9,7 +10,7 @@ A felhasználók adatai és beállításai.
 
 | Mező          | Típus                    | Leírás                                     |
 | ------------- | ------------------------ | ------------------------------------------ |
-| user_id       | INT (PK, AUTO_INCREMENT) | Egyedi azonosító                           |
+| id            | INT (PK, AUTO_INCREMENT) | Egyedi azonosító                           |
 | name          | STRING(100)             | Felhasználó neve                           |
 | email         | STRING(150, UNIQUE)     | Email-cím                                  |
 |email_verified_at|TIMESTAMP                |Megerősitettés dátuma                      |
@@ -26,12 +27,12 @@ Minden felhasználónak lehet több pénzügyi számlája.
 | Mező       | Típus                    | Leírás                     |
 | ---------- | ------------------------ | -------------------------- |
 | account_id | INT (PK)                 | Számla azonosító           |
-| user_id    | INT (FK → Users.user_id) | Tulajdonos                 |
+| id    | INT (FK → Users.user_id) | Tulajdonos                 |
 | name       | STRING(100)             | Számla neve                |
 | type       | STRING(50)              | Típus (pl. “savings”, “checking”) |
 | balance    | INT(15,2)            | Aktuális egyenleg          |
 | currency   | STRING(10)              | Pénznem                    |
-| created_at | DATETIME                 | Létrehozás dátuma          |
+| created_at | TIMESTAMP                | Létrehozás dátuma          |
 
 
 
@@ -44,7 +45,7 @@ Segít a kiadások és bevételek csoportosításában.
 | Mező        | Típus                    | Leírás               |
 | ----------- | ------------------------ | -------------------- |
 | category_id | INT (PK)                 | Kategória azonosító  |
-| user_id     | INT (FK → Users.user_id) | Felhasználóhoz kötve |
+| id     | INT (FK → Users.user_id) | Felhasználóhoz kötve |
 | name        | STRING(100)             | Kategória neve       |
 | type        | STRING('income','expense') | Bevétel vagy kiadás  |
 
