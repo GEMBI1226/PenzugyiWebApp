@@ -14,7 +14,7 @@ return new class extends Migration
             // No accounts table -> linked directly to user
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
 
-            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
+            $table->foreignId('category_id')->constrained('categories', 'category_id')->onDelete('cascade');
 
             $table->decimal('amount', 15, 2);
             $table->enum('type', ['income', 'expense']);

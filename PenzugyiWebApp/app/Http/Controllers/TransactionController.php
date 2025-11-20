@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Transaction; // Modelt beimportáljuk
+use App\Models\Transaction;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class TransactionController extends Controller
@@ -33,26 +34,37 @@ class TransactionController extends Controller
         return view('transaction.show', compact('transaction'));
     }
 
+    public function create()
+    {
+        $categories = Category::all();
+        return view('create', compact('categories'));
+    }
+
     public function store(Request $request)
     {
-    // 1. Validálás
-    $validated = $request->validate([
-        'title' => 'required|string|max:255',
-        'amount' => 'required|numeric',
-        'type' => 'required|string|in:income,expense',
-    ]);
+        // 1. Validálás
+        $validated = $request->validate([
+            'amount' => 'required|numeric',
+            'type' => 'required|in:income,expense',
+            'category_id' => 'required|exists:categories,category_id',
+            'description' => 'nullable|string',
+            'date' => 'required|date',
+        ]);
 
-    // 2. Új tranzakció létrehozása
-    $transaction = new \App\Models\Transaction();
-    $transaction->title = $validated['title'];
-    $transaction->amount = $validated['amount'];
-    $transaction->type = $validated['type'];
+        // 2. Új tranzakció létrehozása
+        $transaction = new Transaction();
+        $transaction->user_id = auth()->id();
+        $transaction->amount = $validated['amount'];
+        $transaction->type = $validated['type'];
+        $transaction->category_id = $validated['category_id'];
+        $transaction->description = $validated['description'];
+        $transaction->date = $validated['date'];
 
-    // 3. Mentés adatbázisba
-    $transaction->save();
+        // 3. Mentés adatbázisba
+        $transaction->save();
 
-    // 4. Visszairányítás a listához sikerüzenettel
-    return redirect()->route('transactions.index')->with('success', 'Tranzakció sikeresen hozzáadva!');
+        // 4. Visszairányítás a listához sikerüzenettel
+        return redirect()->route('transactions.index')->with('success', 'Tranzakció sikeresen hozzáadva!');
     }
 
 

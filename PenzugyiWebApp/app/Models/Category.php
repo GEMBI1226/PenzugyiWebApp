@@ -9,6 +9,8 @@ class Category extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'category_id';
+
     protected $fillable = [
         'user_id',
         'name',
@@ -22,6 +24,6 @@ class Category extends Model
 
     public function transactions()
     {
-        return $this->hasMany(Transaction::class);
+        return $this->hasMany(Transaction::class, 'category_id', 'category_id');
     }
 }

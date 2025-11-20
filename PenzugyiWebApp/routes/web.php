@@ -30,13 +30,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Transaction CRUD
+    Route::get('/new_transaction', [TransactionController::class, 'create'])->name('transactions.create');
+    Route::post('/new_transaction', [TransactionController::class, 'store'])->name('transactions.store');
 });
 
-//Transaction CRUD (Create rész) route-ok
-Route::get('/new_transaction', function(){
-    return view('transaction.new_transaction');
-})->name('new_transactions');
-Route::post('/new_transaction', [TransactionController::class, 'store'])->name('transactions.store');
+
 
 
 // Transaction CRUD (Read rész) route-ok
