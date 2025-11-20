@@ -29,4 +29,12 @@ class Transaction extends Model
     {
         return $this->belongsTo(Category::class, 'category_id', 'category_id');
     }
+
+    /**
+     * Accessor to allow using 'id' as an alias for 'transaction_id'
+     */
+    public function getIdAttribute()
+    {
+        return $this->transaction_id;
+    }
 }
