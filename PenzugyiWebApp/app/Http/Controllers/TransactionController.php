@@ -28,7 +28,7 @@ class TransactionController extends Controller
 
     public function create()
     {
-        $categories = Category::all();
+        $categories = Category::where('type', 'expense')->get();
         return view('create', compact('categories'));
     }
 
@@ -48,7 +48,13 @@ class TransactionController extends Controller
         $transaction->user_id = auth()->id();
         $transaction->amount = $validated['amount'];
         $transaction->type = $validated['type'];
-        $transaction->category_id = $validated['category_id'];
+
+        if ($validated['type'] === 'income') {
+            $incomeCategory = Category::where('name', 'Income')->where('type', 'income')->first();
+            $transaction->category_id = $incomeCategory ? $incomeCategory->category_id : null;
+        } else {
+            $transaction->category_id = $validated['category_id'];
+        }
         $transaction->description = $validated['description'];
         $transaction->date = $validated['date'];
 

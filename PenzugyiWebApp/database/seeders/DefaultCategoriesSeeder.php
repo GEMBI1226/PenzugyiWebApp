@@ -26,6 +26,12 @@ class DefaultCategoriesSeeder extends Seeder
             ]);
         }
 
+        // Add hidden Income category
+        Category::create([
+            'name' => 'Income',
+            'type' => 'income',
+        ]);
+
         $this->command->info('Fixed English categories created successfully!');
 }
 }
