@@ -102,3 +102,30 @@
         </div>
     </div>
 </x-app-layout>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const typeSelect = document.getElementById('type');
+        const categoryContainer = document.getElementById('category_id').closest('div');
+        const categorySelect = document.getElementById('category_id');
+
+        function toggleCategory() {
+            if (typeSelect.value === 'income') {
+                categoryContainer.style.display = 'none';
+                categorySelect.value = ''; // Reset selection
+                categorySelect.removeAttribute('required');
+            } else {
+                categoryContainer.style.display = 'block';
+                if (typeSelect.value === 'expense') {
+                    categorySelect.setAttribute('required', 'required');
+                }
+            }
+        }
+
+        // Initial check
+        toggleCategory();
+
+        // Listen for changes
+        typeSelect.addEventListener('change', toggleCategory);
+    });
+</script>
