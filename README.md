@@ -31,5 +31,5 @@ A felhasználók különböző időtávokra generálhatnak jelentéseket:
 
 - Napi, heti, havi kimutatások  
 - Diagramok a költségeloszlásról  
-- Exportálás PDF vagy CSV formátumban  
+- Exportálás PDF formátumban  
 ---
