@@ -59,6 +59,9 @@
                     <x-nav-link :href="route('transactions.index')" :active="request()->routeIs('transactions.*')">
                         {{ __('Transactions') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('statistics.index')" :active="request()->routeIs('statistics.*')">
+                        {{ __('Statistics') }}
+                    </x-nav-link>
                     <x-nav-link :href="route('limits.index')" :active="request()->routeIs('limits.*')">
                         {{ __('Limits') }}
                     </x-nav-link>
@@ -119,6 +122,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('transactions.index')" :active="request()->routeIs('transactions.*')">
                 {{ __('Transactions') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('statistics.index')" :active="request()->routeIs('statistics.*')">
+                {{ __('Statistics') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('limits.index')" :active="request()->routeIs('limits.*')">
                 {{ __('Limits') }}
