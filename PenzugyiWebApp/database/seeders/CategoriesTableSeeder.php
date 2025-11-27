@@ -16,13 +16,11 @@ class CategoriesTableSeeder extends Seeder
         foreach ($users as $user) {
             // Minden usernek csinálunk 3 bevétel kategóriát
             Category::factory()->count(3)->create([
-                'user_id' => $user->id,
                 'type' => 'income'
             ]);
 
             // És 5 kiadás kategóriát
             Category::factory()->count(5)->create([
-                'user_id' => $user->id,
                 'type' => 'expense'
             ]);
         }
