@@ -39,6 +39,13 @@
                     <span class="block sm:inline">{{ session('success') }}</span>
                 </div>
             @endif
+
+            <!-- Warning Message -->
+            @if(session('warning'))
+                <div class="mb-4 bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative" role="alert">
+                    <span class="block sm:inline">{{ session('warning') }}</span>
+                </div>
+            @endif
             
             <!-- Filter Form -->
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">

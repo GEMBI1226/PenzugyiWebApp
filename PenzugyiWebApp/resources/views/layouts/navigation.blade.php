@@ -7,10 +7,15 @@
                 <div class="hidden sm:flex sm:items-center sm:mr-6">
                     <x-dropdown align="left" width="48">
                         <x-slot name="trigger">
-                            <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                            <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150 relative">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                   <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
                                 </svg>
+                                @if(Auth::user()->unreadNotifications->count() > 0)
+                                    <span class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
+                                        {{ Auth::user()->unreadNotifications->count() }}
+                                    </span>
+                                @endif
                             </button>
                         </x-slot>
 
@@ -19,15 +24,11 @@
                                 {{ __('Notifications') }}
                             </div>
 
-                            @php
-                                $notifications = session()->get('notifications', []);
-                            @endphp
-
-                            @forelse($notifications as $id => $notification)
+                            @forelse(Auth::user()->unreadNotifications as $notification)
                                 <div class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">
                                     <div class="flex justify-between items-center">
-                                        <span>{{ $notification['message'] }}</span>
-                                        <form method="POST" action="{{ route('notifications.read', $id) }}">
+                                        <span>{{ $notification->data['message'] }}</span>
+                                        <form method="POST" action="{{ route('notifications.read', $notification->id) }}">
                                             @csrf
                                             <button type="submit" class="text-red-500 hover:text-red-700 ml-2">
                                                 &times;
@@ -36,9 +37,9 @@
                                     </div>
                                 </div>
                             @empty
-                                <x-dropdown-link :href="'#'">
+                                <div class="px-4 py-2 text-sm text-gray-500">
                                     {{ __('No new notifications') }}
-                                </x-dropdown-link>
+                                </div>
                             @endforelse
                         </x-slot>
                     </x-dropdown>

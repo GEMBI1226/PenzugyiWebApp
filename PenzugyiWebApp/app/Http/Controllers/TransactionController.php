@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Transaction;
 use App\Models\Category;
+use App\Models\CategoryLimit;
+use App\Notifications\BudgetExceededNotification;
 use Illuminate\Http\Request;
 
 class TransactionController extends Controller
@@ -78,6 +80,28 @@ class TransactionController extends Controller
 
         // Save to database
         $transaction->save();
+
+        // Check for category limit
+        if ($transaction->type === 'expense' && $transaction->category_id) {
+            $startOfMonth = \Carbon\Carbon::parse($transaction->date)->startOfMonth();
+            $endOfMonth = \Carbon\Carbon::parse($transaction->date)->endOfMonth();
+
+            $totalExpense = Transaction::where('user_id', auth()->id())
+                ->where('category_id', $transaction->category_id)
+                ->where('type', 'expense')
+                ->whereBetween('date', [$startOfMonth, $endOfMonth])
+                ->sum('amount');
+
+            $limit = CategoryLimit::where('user_id', auth()->id())
+                ->where('category_id', $transaction->category_id)
+                ->first();
+
+            if ($limit && $totalExpense >= $limit->amount) {
+                // Trigger notification
+                $user = auth()->user();
+                $user->notify(new BudgetExceededNotification($transaction->category));
+            }
+        }
 
         // Redirect to list with success message
         return redirect()->route('transactions.index')->with('success', 'Transaction added successfully!');
@@ -158,5 +182,12 @@ class TransactionController extends Controller
         $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('transaction.pdf', compact('transactions', 'period'));
 
         return $pdf->download('transactions_export_' . date('Y-m-d_H-i-s') . '.pdf');
+    }
+
+    public function markNotificationAsRead($id)
+    {
+        $notification = auth()->user()->notifications()->findOrFail($id);
+        $notification->markAsRead();
+        return back();
     }
 }

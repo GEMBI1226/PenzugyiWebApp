@@ -56,7 +56,8 @@ Route::delete('/transactions/{id}', [TransactionController::class, 'destroy'])->
 
 
 // Auth route-ok betöltése (login, register, stb.)
-Route::post('/notifications/{id}/read', [\App\Http\Controllers\NotificationController::class, 'markAsRead'])->name('notifications.read');
+// Notification routes
+Route::post('/notifications/{id}/read', [TransactionController::class, 'markNotificationAsRead'])->name('notifications.read');
 
 Route::get('/limits', [\App\Http\Controllers\LimitController::class, 'index'])->middleware(['auth', 'verified'])->name('limits.index');
 Route::post('/limits', [\App\Http\Controllers\LimitController::class, 'update'])->middleware(['auth', 'verified'])->name('limits.update');
