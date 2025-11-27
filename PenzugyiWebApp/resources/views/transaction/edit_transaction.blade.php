@@ -52,7 +52,7 @@
                                 @foreach($categories as $category)
                                     <option value="{{ $category->category_id }}" 
                                         {{ old('category_id', $transaction->category_id) == $category->category_id ? 'selected' : '' }}>
-                                        {{ $category->name }} ({{ $category->type === 'income' ? 'Income' : 'Expense' }})
+                                        {{ $category->name }}
                                     </option>
                                 @endforeach
                             </select>

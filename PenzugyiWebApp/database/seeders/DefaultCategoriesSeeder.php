@@ -10,13 +10,13 @@ class DefaultCategoriesSeeder extends Seeder
     public function run(): void
     {
         $categories = [
-            'Utalás',
-            'Otthon',
-            'Bevásárlás',
-            'Vendéglátás',
-            'Számlák',
-            'Szórakozás',
-            'Közlekedés',
+            'Transfer',
+            'Housing',
+            'Shopping',
+            'Restaurant',
+            'Bills',
+            'Entertainment',
+            'Transport',
         ];
 
         foreach ($categories as $name) {
@@ -26,6 +26,6 @@ class DefaultCategoriesSeeder extends Seeder
             ]);
         }
 
-        $this->command->info('Fixed Hungarian categories created successfully!');
-    }
+        $this->command->info('Fixed English categories created successfully!');
+}
 }
