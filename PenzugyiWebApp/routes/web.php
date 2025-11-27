@@ -55,4 +55,6 @@ Route::delete('/transactions/{id}', [TransactionController::class, 'destroy'])->
 
 
 // Auth route-ok betöltése (login, register, stb.)
+Route::post('/notifications/{id}/read', [\App\Http\Controllers\NotificationController::class, 'markAsRead'])->name('notifications.read');
+
 require __DIR__.'/auth.php';
