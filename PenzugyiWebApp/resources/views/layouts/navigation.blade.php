@@ -19,9 +19,27 @@
                                 {{ __('Notifications') }}
                             </div>
 
-                            <x-dropdown-link :href="'#'">
-                                {{ __('No new notifications') }}
-                            </x-dropdown-link>
+                            @php
+                                $notifications = session()->get('notifications', []);
+                            @endphp
+
+                            @forelse($notifications as $id => $notification)
+                                <div class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">
+                                    <div class="flex justify-between items-center">
+                                        <span>{{ $notification['message'] }}</span>
+                                        <form method="POST" action="{{ route('notifications.read', $id) }}">
+                                            @csrf
+                                            <button type="submit" class="text-red-500 hover:text-red-700 ml-2">
+                                                &times;
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            @empty
+                                <x-dropdown-link :href="'#'">
+                                    {{ __('No new notifications') }}
+                                </x-dropdown-link>
+                            @endforelse
                         </x-slot>
                     </x-dropdown>
                 </div>
@@ -40,6 +58,12 @@
                     </x-nav-link>
                     <x-nav-link :href="route('transactions.index')" :active="request()->routeIs('transactions.*')">
                         {{ __('Transactions') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('statistics.index')" :active="request()->routeIs('statistics.*')">
+                        {{ __('Statistics') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('limits.index')" :active="request()->routeIs('limits.*')">
+                        {{ __('Limits') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -98,6 +122,12 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('transactions.index')" :active="request()->routeIs('transactions.*')">
                 {{ __('Transactions') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('statistics.index')" :active="request()->routeIs('statistics.*')">
+                {{ __('Statistics') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('limits.index')" :active="request()->routeIs('limits.*')">
+                {{ __('Limits') }}
             </x-responsive-nav-link>
         </div>
 

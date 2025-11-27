@@ -55,4 +55,9 @@ Route::delete('/transactions/{id}', [TransactionController::class, 'destroy'])->
 
 
 // Auth route-ok betöltése (login, register, stb.)
+Route::post('/notifications/{id}/read', [\App\Http\Controllers\NotificationController::class, 'markAsRead'])->name('notifications.read');
+
+Route::get('/limits', [\App\Http\Controllers\LimitController::class, 'index'])->middleware(['auth', 'verified'])->name('limits.index');
+Route::get('/statistics', [\App\Http\Controllers\StatisticsController::class, 'index'])->middleware(['auth', 'verified'])->name('statistics.index');
+
 require __DIR__.'/auth.php';
