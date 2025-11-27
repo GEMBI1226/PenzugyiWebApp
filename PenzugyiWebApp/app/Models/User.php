@@ -27,4 +27,8 @@ class User extends Authenticatable
     }
 
 
+    public function limits()
+    {
+        return $this->hasMany(CategoryLimit::class);
+    }
 }

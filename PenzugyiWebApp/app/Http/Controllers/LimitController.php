@@ -2,12 +2,42 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\CategoryLimit;
 use Illuminate\Http\Request;
 
 class LimitController extends Controller
 {
     public function index()
     {
-        return view('limits.index');
+        $categories = Category::where('type', 'expense')->get();
+        $limits = auth()->user()->limits()->pluck('amount', 'category_id');
+
+        return view('limits.index', compact('categories', 'limits'));
+    }
+
+    public function update(Request $request)
+    {
+        $validated = $request->validate([
+            'limits' => 'array',
+            'limits.*' => 'nullable|numeric|min:0',
+        ]);
+
+        $user = auth()->user();
+
+        foreach ($validated['limits'] as $categoryId => $amount) {
+            if ($amount === null) {
+                CategoryLimit::where('user_id', $user->id)
+                    ->where('category_id', $categoryId)
+                    ->delete();
+            } else {
+                CategoryLimit::updateOrCreate(
+                    ['user_id' => $user->id, 'category_id' => $categoryId],
+                    ['amount' => $amount]
+                );
+            }
+        }
+
+        return redirect()->route('limits.index')->with('success', 'Limits updated successfully!');
     }
 }

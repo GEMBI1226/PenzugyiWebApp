@@ -59,6 +59,7 @@ Route::delete('/transactions/{id}', [TransactionController::class, 'destroy'])->
 Route::post('/notifications/{id}/read', [\App\Http\Controllers\NotificationController::class, 'markAsRead'])->name('notifications.read');
 
 Route::get('/limits', [\App\Http\Controllers\LimitController::class, 'index'])->middleware(['auth', 'verified'])->name('limits.index');
+Route::post('/limits', [\App\Http\Controllers\LimitController::class, 'update'])->middleware(['auth', 'verified'])->name('limits.update');
 Route::get('/statistics', [\App\Http\Controllers\StatisticsController::class, 'index'])->middleware(['auth', 'verified'])->name('statistics.index');
 
 require __DIR__.'/auth.php';
