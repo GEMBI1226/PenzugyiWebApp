@@ -65,7 +65,7 @@ A PenzugyiWebApp célja, hogy egy modern, biztonságos és felhasználóbarát w
 - **Transaction modul** — tranzakciók CRUD (Create, Read, Update, Delete)  
 - **Category modul** — kategóriák kezelése, kategória definíció, szerkesztés, törlés  
 - **Report / Statistics modul** — kimutatások generálása, adat aggregálás, statisztikák, grafikonok  
-- **Export modul** — PDF / CSV export  
+- **Export modul** — PDF export  
 - **Frontend UI modul** — reszponzív interfész, mobil + desktop, űrlapok 
 
 ### 4.3 Adatfolyam és interfészek  
@@ -81,6 +81,6 @@ A PenzugyiWebApp célja, hogy egy modern, biztonságos és felhasználóbarát w
 | Tranzakció szerkesztése / törlése | Hibás adat javítása vagy tévesen rögzített tranzakció eltávolítása. |
 | Jelentés lekérése | Felhasználó generál egy havi kimutatást, látja kiadás/bevétel eloszlását kategóriánként. |
 | Grafikus megjelenítés | Diagram, grafikon jeleníti meg a költési struktúrát. |
-| Exportálás | Jelentés exportálása PDF vagy CSV formátumban. |
+| Exportálás | Jelentés exportálása PDF formátumban. |
 | Több eszköz / szinkron | Ugyanazzal a fiókkal mobilon és asztali böngészőn is hozzáférhető adatok. |
 
