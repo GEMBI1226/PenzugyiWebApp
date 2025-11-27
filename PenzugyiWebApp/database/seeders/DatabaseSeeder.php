@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
         // Fontos a sorrend! Előbb a User, aztán a Kategória, végül a Tranzakció.
         $this->call([
             UsersTableSeeder::class,
-            CategoriesTableSeeder::class,
+            DefaultCategoriesSeeder::class,
             TransactionsTableSeeder::class,
         ]);
     }

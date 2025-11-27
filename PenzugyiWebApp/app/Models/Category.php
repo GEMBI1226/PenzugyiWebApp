@@ -12,15 +12,12 @@ class Category extends Model
     protected $primaryKey = 'category_id';
 
     protected $fillable = [
-        'user_id',
+
         'name',
         'type',
     ];
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+
 
     public function transactions()
     {

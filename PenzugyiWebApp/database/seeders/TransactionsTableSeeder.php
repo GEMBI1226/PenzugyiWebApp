@@ -14,27 +14,25 @@ class TransactionsTableSeeder extends Seeder
         // Lekérjük az összes usert
         $users = User::all();
 
-        foreach ($users as $user) {
-            // Lekérjük az adott user SAJÁT kategóriáit, típus szerint szétválogatva
-            $incomeCategories = Category::where('user_id', $user->id)->where('type', 'income')->get();
-            $expenseCategories = Category::where('user_id', $user->id)->where('type', 'expense')->get();
+        // Get all global categories
+        $incomeCategories = Category::where('type', 'income')->get();
+        $expenseCategories = Category::where('type', 'expense')->get();
 
-            // Ha van bevétel kategóriája, csinálunk neki 5 bevételt
+        foreach ($users as $user) {
+            // Create income transactions
             if ($incomeCategories->count() > 0) {
                 Transaction::factory()->count(5)->create([
                     'user_id' => $user->id,
                     'type' => 'income',
-                    // Véletlenszerűen választunk egyet a user saját bevétel kategóriái közül
                     'category_id' => fn() => $incomeCategories->random()->category_id,
                 ]);
             }
 
-            // Ha van kiadás kategóriája, csinálunk neki 10 kiadást
+            // Create expense transactions
             if ($expenseCategories->count() > 0) {
                 Transaction::factory()->count(10)->create([
                     'user_id' => $user->id,
                     'type' => 'expense',
-                    // Véletlenszerűen választunk egyet a user saját kiadás kategóriái közül
                     'category_id' => fn() => $expenseCategories->random()->category_id,
                 ]);
             }

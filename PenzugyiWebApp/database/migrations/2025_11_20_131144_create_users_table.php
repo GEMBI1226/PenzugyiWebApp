@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('account_type', 50)->nullable();
             $table->decimal('balance', 15, 2)->default(0);
             $table->string('currency', 10)->default('HUF');
+            $table->rememberToken();
 
             $table->timestamps();
         });
