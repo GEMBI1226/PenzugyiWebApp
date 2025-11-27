@@ -109,4 +109,30 @@ class TransactionController extends Controller
         return redirect()->route('transactions.index')->with('success', 'Transaction deleted successfully!');
     }
 
+    public function export(Request $request)
+    {
+        $query = Transaction::query();
+
+        if ($request->has('year') && $request->year != 'all') {
+            $query->whereYear('date', $request->year);
+        }
+
+        if ($request->has('month') && $request->month != 'all') {
+            $query->whereMonth('date', $request->month);
+        }
+
+        $transactions = $query->orderBy('date', 'desc')->get();
+
+        $period = 'All time';
+        if ($request->has('year') && $request->year != 'all') {
+            $period = $request->year;
+            if ($request->has('month') && $request->month != 'all') {
+                $period .= '-' . str_pad($request->month, 2, '0', STR_PAD_LEFT);
+            }
+        }
+
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('transaction.pdf', compact('transactions', 'period'));
+
+        return $pdf->download('transactions_export_' . date('Y-m-d_H-i-s') . '.pdf');
+    }
 }

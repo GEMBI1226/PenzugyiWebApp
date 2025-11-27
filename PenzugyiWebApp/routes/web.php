@@ -41,6 +41,7 @@ Route::middleware('auth')->group(function () {
 
 // Transaction CRUD (Read rész) route-ok
 Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
+Route::get('/transactions/export', [TransactionController::class, 'export'])->name('transactions.export');
 Route::get('/transactions/{id}', [TransactionController::class, 'show'])->name('transactions.show');
 
 
