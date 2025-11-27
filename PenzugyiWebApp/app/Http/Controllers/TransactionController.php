@@ -11,10 +11,28 @@ class TransactionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $transactions = Transaction::all();
-        return view('transaction.index', compact('transactions'));
+        $query = Transaction::query();
+
+        // Filter by Year
+        if ($request->filled('year') && $request->year != 'any') {
+            $query->whereYear('date', $request->year);
+        }
+
+        // Filter by Category
+        if ($request->filled('category_id') && $request->category_id != 'any') {
+            $query->where('category_id', $request->category_id);
+        }
+
+        $transactions = $query->orderBy('date', 'desc')->get();
+
+        // Get data for filters
+        $categories = Category::all();
+        // Get unique years from transactions
+        $years = Transaction::selectRaw('YEAR(date) as year')->distinct()->orderBy('year', 'desc')->pluck('year');
+
+        return view('transaction.index', compact('transactions', 'categories', 'years'));
     }
 
     /**
