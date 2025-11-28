@@ -45,15 +45,29 @@ class StatisticsController extends Controller
             'amounts' => [],
         ];
 
+        $topCategories = [];
+
         foreach ($expensesByCategory as $expense) {
             if ($expense->category) {
                 $chartData['labels'][] = $expense->category->name;
                 $chartData['amounts'][] = (float) $expense->total;
+                
+                $topCategories[] = [
+                    'name' => $expense->category->name,
+                    'amount' => (float) $expense->total,
+                ];
             }
         }
 
+        // Sort and get top 3 categories
+        usort($topCategories, function($a, $b) {
+            return $b['amount'] <=> $a['amount'];
+        });
+        $topCategories = array_slice($topCategories, 0, 3);
+
         return view('statistics.index', [
             'chartData' => $chartData,
+            'topCategories' => $topCategories,
             'period' => $period
         ]);
     }

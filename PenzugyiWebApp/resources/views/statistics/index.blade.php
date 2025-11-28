@@ -40,6 +40,43 @@
                             </button>
                         </div>
 
+                        <!-- Top 3 Categories Summary -->
+                        @if(count($topCategories) > 0)
+                            <div class="mb-8">
+                                <h4 class="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-300">{{ __('Top Spending Categories') }}</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                    @foreach($topCategories as $index => $category)
+                                        <div class="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 rounded-xl p-5 shadow-md hover:shadow-lg transition-all duration-300 border border-gray-200 dark:border-gray-600">
+                                            <div class="flex items-start justify-between mb-3">
+                                                <div class="flex items-center gap-2">
+                                                    <span class="
+                                                        @if($index === 0) bg-gradient-to-br from-yellow-400 to-yellow-600 
+                                                        @elseif($index === 1) bg-gradient-to-br from-gray-300 to-gray-500 
+                                                        @else bg-gradient-to-br from-orange-400 to-orange-600 
+                                                        @endif
+                                                        text-white text-xs font-bold w-7 h-7 rounded-full flex items-center justify-center shadow-sm">
+                                                        {{ $index + 1 }}
+                                                    </span>
+                                                    <span class="text-sm font-medium text-gray-500 dark:text-gray-400">
+                                                        @if($index === 0) {{ __('Most') }}
+                                                        @elseif($index === 1) {{ __('2nd') }}
+                                                        @else {{ __('3rd') }}
+                                                        @endif
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <h5 class="font-bold text-lg text-gray-800 dark:text-gray-100 mb-2 truncate" title="{{ $category['name'] }}">
+                                                {{ $category['name'] }}
+                                            </h5>
+                                            <p class="text-2xl font-extrabold bg-gradient-to-r from-purple-600 to-indigo-600 dark:from-purple-400 dark:to-indigo-400 bg-clip-text text-transparent">
+                                                {{ number_format($category['amount'], 0, ',', ' ') }} Ft
+                                            </p>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
+
                         <!-- Chart Container -->
                         <div class="chart-container" style="position: relative; height:400px; max-width: 600px; margin: 0 auto;">
                             @if(count($chartData['labels']) > 0)
