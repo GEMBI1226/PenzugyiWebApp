@@ -128,7 +128,9 @@
                                     const value = context.parsed || 0;
                                     const total = context.dataset.data.reduce((a, b) => a + b, 0);
                                     const percentage = ((value / total) * 100).toFixed(1);
-                                    return `${label}: $${value.toFixed(2)} (${percentage}%)`;
+                                    // Format as Hungarian forint: space as thousands separator, no decimals
+                                    const formattedValue = Math.round(value).toLocaleString('hu-HU');
+                                    return `${label}: ${formattedValue} Ft (${percentage}%)`;
                                 }
                             }
                         }
