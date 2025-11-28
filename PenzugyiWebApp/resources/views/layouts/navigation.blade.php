@@ -46,7 +46,7 @@
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="flex space-x-8 -my-px ml-10">
+                <div class="flex space-x-8 -my-px">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
