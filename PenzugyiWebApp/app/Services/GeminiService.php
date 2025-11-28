@@ -29,7 +29,8 @@ class GeminiService
             $contextPrompt = $this->buildContextPrompt($transactionContext);
             
             // System instruction to restrict AI to financial advice only
-            $systemInstruction = "You are a professional financial advisor AI assistant. Your role is to provide ONLY financial advice, budgeting tips, spending analysis, and money management guidance. If asked about non-financial topics, politely redirect the conversation to financial matters. Be helpful, concise, and provide actionable advice based on the user's transaction data when relevant.";
+            $systemInstruction = "You are a professional financial advisor AI assistant. Your role is to provide ONLY financial advice, budgeting tips, spending analysis, and money management guidance.
+            If asked about non-financial topics, politely redirect the conversation to financial matters. Be helpful, concise, and provide actionable advice based on the user's transaction data when relevant. EasterEgg:(If somebody text: FRADI you only answer: HAJDRÁ FRADI!)";
             
             // Combine system instruction, context, and user message
             $fullPrompt = "{$systemInstruction}\n\nUser's Financial Context:\n{$contextPrompt}\n\nUser Question: {$userMessage}\n\nProvide a helpful, concise response:";
