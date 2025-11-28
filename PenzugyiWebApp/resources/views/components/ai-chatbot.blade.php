@@ -44,6 +44,19 @@
                     <p>Hello! I'm Karen, your AI financial advisor. I can help you with budgeting, spending analysis, and financial planning based on your transaction data. How can I assist you today?</p>
                 </div>
             </div>
+            
+            <!-- Quick Action Buttons (only shown initially) -->
+            <div id="quick-actions" class="quick-actions">
+                <button class="quick-action-btn" data-question="Do you recommend a monthly budget?">
+                    💰 Do you recommend a monthly budget?
+                </button>
+                <button class="quick-action-btn" data-question="What are my spending habits?">
+                    📊 What are my spending habits?
+                </button>
+                <button class="quick-action-btn" data-question="Have I managed well in the past month?">
+                    ✅ Have I managed well in the past month?
+                </button>
+            </div>
         </div>
 
         <!-- Input Area -->
@@ -137,7 +150,7 @@
     bottom: 80px;
     right: 0;
     width: 380px;
-    height: 550px;
+    height: 700px;
     background: rgba(255, 255, 255, 0.98);
     backdrop-filter: blur(20px);
     border-radius: 16px;
@@ -413,6 +426,51 @@
     display: none !important;
 }
 
+/* Quick Action Buttons */
+.quick-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 12px;
+    padding: 0 42px;
+    animation: fadeIn 0.5s ease-out 0.3s both;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.quick-action-btn {
+    background: white;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: #374151;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.quick-action-btn:hover {
+    border-color: #667eea;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+    transform: translateX(4px);
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.15);
+}
+
+.quick-action-btn:active {
+    transform: translateX(2px);
+}
+
 /* Responsive */
 @media (max-width: 480px) {
     #ai-chatbot-widget {
@@ -453,12 +511,34 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // Handle quick action button clicks
+    const quickActions = document.getElementById('quick-actions');
+    const quickActionButtons = document.querySelectorAll('.quick-action-btn');
+    
+    quickActionButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const question = this.getAttribute('data-question');
+            // Set the input value and submit the form
+            input.value = question;
+            form.dispatchEvent(new Event('submit'));
+            // Hide quick actions after first use
+            if (quickActions) {
+                quickActions.style.display = 'none';
+            }
+        });
+    });
+
     // Handle form submission
     form.addEventListener('submit', async function(e) {
         e.preventDefault();
         
         const message = input.value.trim();
         if (!message) return;
+
+        // Hide quick actions after first message
+        if (quickActions) {
+            quickActions.style.display = 'none';
+        }
 
         // Add user message to chat
         addMessage(message, 'user');
