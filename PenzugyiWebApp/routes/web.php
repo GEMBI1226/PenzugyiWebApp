@@ -34,6 +34,9 @@ Route::middleware('auth')->group(function () {
     // Transaction CRUD
     Route::get('/new_transaction', [TransactionController::class, 'create'])->name('transactions.create');
     Route::post('/new_transaction', [TransactionController::class, 'store'])->name('transactions.store');
+    
+    // AI Chat
+    Route::post('/api/ai-chat', [App\Http\Controllers\AIChatController::class, 'sendMessage'])->name('ai.chat');
 });
 
 

@@ -32,5 +32,8 @@
                 {{ $slot }}
             </main>
         </div>
+        
+        <!-- AI Chatbot Widget -->
+        @include('components.ai-chatbot')
     </body>
 </html>
