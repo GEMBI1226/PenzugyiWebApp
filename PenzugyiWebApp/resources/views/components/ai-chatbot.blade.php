@@ -22,7 +22,7 @@
                     </svg>
                 </div>
                 <div>
-                    <h3 class="chatbot-title">Steve (AI financial advisor)</h3>
+                    <h3 class="chatbot-title">Karen (AI financial advisor)</h3>
                     <p class="chatbot-status">
                         <span class="status-dot"></span>
                         Online
@@ -41,7 +41,7 @@
                     </svg>
                 </div>
                 <div class="message-content">
-                    <p>Hello! I'm Steve, your AI financial advisor. I can help you with budgeting, spending analysis, and financial planning based on your transaction data. How can I assist you today?</p>
+                    <p>Hello! I'm Karen, your AI financial advisor. I can help you with budgeting, spending analysis, and financial planning based on your transaction data. How can I assist you today?</p>
                 </div>
             </div>
         </div>
