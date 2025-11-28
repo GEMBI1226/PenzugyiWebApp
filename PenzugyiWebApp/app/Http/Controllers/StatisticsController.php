@@ -65,9 +65,62 @@ class StatisticsController extends Controller
         });
         $topCategories = array_slice($topCategories, 0, 3);
 
+        // Prepare data for income vs expense line chart
+        $trendData = [
+            'labels' => [],
+            'income' => [],
+            'expenses' => [],
+        ];
+
+        if ($period === 'monthly') {
+            // Last 12 months
+            for ($i = 11; $i >= 0; $i--) {
+                $date = now()->subMonths($i);
+                $monthName = $date->format('M Y');
+                
+                $monthIncome = Transaction::where('user_id', $userId)
+                    ->where('type', 'income')
+                    ->whereYear('date', $date->year)
+                    ->whereMonth('date', $date->month)
+                    ->sum('amount');
+                
+                $monthExpense = Transaction::where('user_id', $userId)
+                    ->where('type', 'expense')
+                    ->whereYear('date', $date->year)
+                    ->whereMonth('date', $date->month)
+                    ->sum('amount');
+                
+                $trendData['labels'][] = $monthName;
+                $trendData['income'][] = (float) $monthIncome;
+                $trendData['expenses'][] = (float) $monthExpense;
+            }
+        } else {
+            // All 12 months of current year
+            for ($month = 1; $month <= 12; $month++) {
+                $monthName = date('F', mktime(0, 0, 0, $month, 1));
+                
+                $monthIncome = Transaction::where('user_id', $userId)
+                    ->where('type', 'income')
+                    ->whereYear('date', now()->year)
+                    ->whereMonth('date', $month)
+                    ->sum('amount');
+                
+                $monthExpense = Transaction::where('user_id', $userId)
+                    ->where('type', 'expense')
+                    ->whereYear('date', now()->year)
+                    ->whereMonth('date', $month)
+                    ->sum('amount');
+                
+                $trendData['labels'][] = $monthName;
+                $trendData['income'][] = (float) $monthIncome;
+                $trendData['expenses'][] = (float) $monthExpense;
+            }
+        }
+
         return view('statistics.index', [
             'chartData' => $chartData,
             'topCategories' => $topCategories,
+            'trendData' => $trendData,
             'period' => $period
         ]);
     }

@@ -90,6 +90,16 @@
                                 </div>
                             @endif
                         </div>
+
+                        <!-- Income vs Expense Line Chart -->
+                        <div class="mt-12">
+                            <h4 class="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-300">
+                                {{ $period === 'monthly' ? __('Income vs Expenses - Last 12 Months') : __('Income vs Expenses - This Year') }}
+                            </h4>
+                            <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-md border border-gray-200 dark:border-gray-600">
+                                <canvas id="trendChart" style="max-height: 400px;"></canvas>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -102,6 +112,7 @@
     <script>
         // Chart data from Laravel
         const chartData = @json($chartData);
+        const trendData = @json($trendData);
         const currentPeriod = '{{ $period }}';
         
         // Vibrant color palette
@@ -141,12 +152,29 @@
             if (myChart) {
                 updateChartForTheme();
             }
+            if (trendChart) {
+                updateTrendChartForTheme();
+            }
         }
 
         function updateChartForTheme() {
             const isDark = document.documentElement.classList.contains('dark');
             myChart.options.plugins.legend.labels.color = isDark ? '#e5e7eb' : '#374151';
             myChart.update();
+        }
+
+        function updateTrendChartForTheme() {
+            const isDark = document.documentElement.classList.contains('dark');
+            trendChart.options.plugins.legend.labels.color = isDark ? '#e5e7eb' : '#374151';
+            trendChart.options.plugins.tooltip.backgroundColor = isDark ? 'rgba(31, 41, 55, 0.95)' : 'rgba(255, 255, 255, 0.95)';
+            trendChart.options.plugins.tooltip.titleColor = isDark ? '#e5e7eb' : '#374151';
+            trendChart.options.plugins.tooltip.bodyColor = isDark ? '#e5e7eb' : '#374151';
+            trendChart.options.plugins.tooltip.borderColor = isDark ? '#4b5563' : '#d1d5db';
+            trendChart.options.scales.y.grid.color = isDark ? 'rgba(75, 85, 99, 0.3)' : 'rgba(229, 231, 235, 0.8)';
+            trendChart.options.scales.y.ticks.color = isDark ? '#9ca3af' : '#6b7280';
+            trendChart.options.scales.x.grid.color = isDark ? 'rgba(75, 85, 99, 0.3)' : 'rgba(229, 231, 235, 0.8)';
+            trendChart.options.scales.x.ticks.color = isDark ? '#9ca3af' : '#6b7280';
+            trendChart.update();
         }
 
         // Load dark mode preference
@@ -217,6 +245,113 @@
             });
         }
 
+        let trendChart = null;
+
+        function initTrendChart() {
+            const ctx = document.getElementById('trendChart');
+            const isDark = document.documentElement.classList.contains('dark');
+            
+            if (trendChart) {
+                trendChart.destroy();
+            }
+
+            trendChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: trendData.labels,
+                    datasets: [{
+                        label: 'Income',
+                        data: trendData.income,
+                        borderColor: 'rgba(34, 197, 94, 1)',
+                        backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 4,
+                        pointHoverRadius: 6,
+                        pointBackgroundColor: 'rgba(34, 197, 94, 1)',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2
+                    }, {
+                        label: 'Expenses',
+                        data: trendData.expenses,
+                        borderColor: 'rgba(239, 68, 68, 1)',
+                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 4,
+                        pointHoverRadius: 6,
+                        pointBackgroundColor: 'rgba(239, 68, 68, 1)',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                color: isDark ? '#e5e7eb' : '#374151',
+                                font: {
+                                    size: 13,
+                                    family: "'Inter', sans-serif",
+                                    weight: '600'
+                                },
+                                padding: 15,
+                                usePointStyle: true,
+                                pointStyle: 'circle'
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: isDark ? 'rgba(31, 41, 55, 0.95)' : 'rgba(255, 255, 255, 0.95)',
+                            titleColor: isDark ? '#e5e7eb' : '#374151',
+                            bodyColor: isDark ? '#e5e7eb' : '#374151',
+                            borderColor: isDark ? '#4b5563' : '#d1d5db',
+                            borderWidth: 1,
+                            padding: 12,
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.dataset.label || '';
+                                    const value = context.parsed.y || 0;
+                                    const formattedValue = Math.round(value).toLocaleString('hu-HU');
+                                    return `${label}: ${formattedValue} Ft`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: isDark ? 'rgba(75, 85, 99, 0.3)' : 'rgba(229, 231, 235, 0.8)',
+                            },
+                            ticks: {
+                                color: isDark ? '#9ca3af' : '#6b7280',
+                                callback: function(value) {
+                                    return Math.round(value).toLocaleString('hu-HU') + ' Ft';
+                                }
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: isDark ? 'rgba(75, 85, 99, 0.3)' : 'rgba(229, 231, 235, 0.8)',
+                            },
+                            ticks: {
+                                color: isDark ? '#9ca3af' : '#6b7280',
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
         function loadChart(period) {
             // Update button states
             document.querySelectorAll('.period-toggle-btn').forEach(btn => {
@@ -228,8 +363,11 @@
             window.location.href = '{{ route("statistics.index") }}?period=' + period;
         }
 
-        // Initialize chart on page load
-        document.addEventListener('DOMContentLoaded', initChart);
+        // Initialize charts on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            initChart();
+            initTrendChart();
+        });
     </script>
 
     <style>
