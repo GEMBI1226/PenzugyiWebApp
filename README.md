@@ -13,7 +13,7 @@ Célja, hogy egyszerűen és átláthatóan segítsen a pénzügyi tudatosság n
 - Időszakos jelentések (heti, havi, éves)  
 - Biztonságos bejelentkezés és adatkezelés  
 - Reszponzív felület (mobilon és asztali gépen is használható)  
-- Adatok mentése és szinkronizálása a felhőben  
+  
 
 ---
 
