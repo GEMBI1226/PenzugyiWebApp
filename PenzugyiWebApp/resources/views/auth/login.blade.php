@@ -57,12 +57,17 @@
 
             <div class="flex items-center justify-between mt-8"> 
                 
-                @if (Route::has('password.request'))
-                    
-                    <a class="underline text-sm text-indigo-600 hover:text-indigo-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                        {{ __('Forgot your password?') }}
+                <div class="flex flex-col items-start">
+                    @if (Route::has('password.request'))
+                        <a class="underline text-sm text-indigo-600 hover:text-indigo-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mb-2" href="{{ route('password.request') }}">
+                            {{ __('Forgot your password?') }}
+                        </a>
+                    @endif
+
+                    <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('register') }}">
+                        {{ __('No account? Register') }}
                     </a>
-                @endif
+                </div>
                 
                 
                 <x-primary-button class="w-1/2 justify-center py-2.5">
