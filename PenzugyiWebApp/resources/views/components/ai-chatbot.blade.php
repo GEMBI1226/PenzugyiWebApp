@@ -142,7 +142,8 @@
     bottom: 80px;
     right: 0;
     width: 380px;
-    height: 700px;
+    height: 600px;
+    max-height: 80vh;
     background: rgba(255, 255, 255, 0.98);
     backdrop-filter: blur(20px);
     border-radius: 16px;
