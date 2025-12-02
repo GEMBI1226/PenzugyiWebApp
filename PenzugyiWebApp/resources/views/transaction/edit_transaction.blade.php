@@ -33,7 +33,7 @@
                             <label for="amount" class="block text-sm font-medium text-gray-700">
                                 Amount
                             </label>
-                            <input type="number" name="amount" id="amount" step="0.01" required
+                            <input type="text" name="amount" id="amount" inputmode="decimal" required
                                 value="{{ old('amount', $transaction->amount) }}"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                             @error('amount')
@@ -103,3 +103,30 @@
         </div>
     </div>
 </x-app-layout>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const amountInput = document.getElementById('amount');
+        const form = amountInput.closest('form');
+
+        function formatAmount(input) {
+            let value = input.value.replace(/\s/g, '');
+            if (!isNaN(value) && value.length > 0) {
+                input.value = value.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            }
+        }
+
+        amountInput.addEventListener('input', function() {
+            formatAmount(this);
+        });
+
+        // Format on load if there's a value
+        if (amountInput.value) {
+            formatAmount(amountInput);
+        }
+
+        form.addEventListener('submit', function() {
+            amountInput.value = amountInput.value.replace(/\s/g, '');
+        });
+    });
+</script>

@@ -81,36 +81,22 @@ Lehetőségek:
 
 ---
 
-### 3.3 Kategóriakezelés
+### 3.3 Statisztikai funkciók
 
-#### 3.3.1 Kategória létrehozása
-- A felhasználó új kategóriát hozhat létre.
-- A kategórialista egyediséget megkövetel (nem lehet két azonos nevű kategória).
-
-#### 3.3.2 Kategóriák listázása
-- A felhasználó megtekintheti korábban létrehozott kategóriáit.
-
-#### 3.3.3 Kategória szerkesztése
-- A felhasználó módosíthatja a kategória nevét.
-
----
-
-### 3.4 Statisztikai funkciók
-
-#### 3.4.1 Időszakos kimutatások
+#### 3.3.1 Időszakos kimutatások
 A rendszer képes:
 - havi,
 - éves,
 - heti,
 - napi statisztikákat készíteni.
 
-#### 3.4.2 Diagramok
+#### 3.3.2 Diagramok
 A rendszer grafikus megjelenítést biztosít:
 - kategóriánkénti kiadás/bevétel eloszlásról,
 - havi trendekről,
 - összesített egyenlegről.
 
-#### 3.4.3 Összegzések
+#### 3.3.3 Összegzések
 A kimutatások tartalmazzák:
 - összes bevétel,
 - összes kiadás,
@@ -118,26 +104,26 @@ A kimutatások tartalmazzák:
 
 ---
 
-### 3.5 Export funkciók
+### 3.4 Export funkciók
 
-#### 3.5.1 PDF export
+#### 3.4.1 PDF export
 A felhasználó PDF formátumban letöltheti a kimutatásokat.
 
 ---
 
-### 3.6 Felhasználói felület
+### 3.5 Felhasználói felület
 
-#### 3.6.1 Reszponzivitás
+#### 3.5.1 Reszponzivitás
 - A felület mobilon és asztali böngészőkben egyaránt használható.
 - Az elemek automatikusan igazodnak a kijelző méretéhez.
 
-#### 3.6.2 Navigáció
+#### 3.5.2 Navigáció
 A rendszer biztosítja a következő nézeteket:
 - Dashboard (áttekintés)
 - Tranzakciók
-- Kategóriák
-- Jelentések
-- Profil / autentikáció
+- Statisztikák
+- Limitek
+- Profil 
 
 ---
 
@@ -189,7 +175,6 @@ A rendszer biztosítja a következő nézeteket:
 ### 7.1 Alapfunkciók működése
 - A felhasználó képes regisztrálni és belépni.
 - Tranzakciók rögzíthetők, módosíthatók, törölhetők.
-- Kategóriák kezelhetők.
 - Statisztikák generálhatók.
 - Exportálás működik.
 

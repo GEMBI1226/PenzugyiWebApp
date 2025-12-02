@@ -27,7 +27,7 @@ class TransactionController extends Controller
             $query->where('category_id', $request->category_id);
         }
 
-        $transactions = $query->orderBy('date', 'desc')->get();
+        $transactions = $query->orderBy('date', 'desc')->orderBy('created_at', 'desc')->get();
 
         // Get data for filters
         $categories = Category::all();
