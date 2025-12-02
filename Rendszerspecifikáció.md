@@ -21,11 +21,11 @@ A PenzugyiWebApp célja, hogy egy modern, biztonságos és felhasználóbarát w
 ### 2.3 Jelentések és statisztikák  
 - Időszakos jelentések generálása: napi, heti, havi, éves kimutatások.   
 - Diagramok / grafikonok készítése a költség- / bevételi adatok eloszlásáról, kategóriánkénti bontásban. 
-- Lehetőség adat exportálásra: PDF vagy CSV formátumban.   
+- Lehetőség adat exportálásra: PDF.   
 
 ### 2.4 Felhasználói autentikáció és adatkezelés  
 - Biztonságos bejelentkezés / regisztráció mechanizmus.  
-- Felhasználói adatok mentése, szinkronizálás a felhőben — hogy az adatok több eszközről is elérhetőek legyenek. 
+- Felhasználói adatok mentése. 
 
 ### 2.5 Reszponzív felület / több platform támogatás  
 - Az alkalmazás működjön asztali böngészőben és mobilon is. 
@@ -42,7 +42,7 @@ A PenzugyiWebApp célja, hogy egy modern, biztonságos és felhasználóbarát w
 - Skálázhatóság: ha sok felhasználó / sok adat, az adatbázis és backend terhelést bírja el.  
 
 ### 3.3 Megbízhatóság & adatmegőrzés  
-- Az adatok tárolása (pl. adatbázis).    
+- Az adatok tárolása adatbázisba.    
 
 ### 3.4 Használhatóság / UX  
 - Felhasználóbarát, intuitív UI/UX.  
@@ -57,7 +57,7 @@ A PenzugyiWebApp célja, hogy egy modern, biztonságos és felhasználóbarát w
 ### 4.1 Technológiai stack  
 - Frontend: JavaScript + CSS  
 - Backend: PHP (javító keretrendszer: Laravel) 
-- Styling / UI: Bootstrap és/vagy SCSS 
+- Styling: Tailwind CSS
 - Adatbázis: adatbázis — tranzakciók, felhasználók, kategóriák tárolására  
 
 ### 4.2 Komponens-/modul struktúra  
@@ -82,5 +82,5 @@ A PenzugyiWebApp célja, hogy egy modern, biztonságos és felhasználóbarát w
 | Jelentés lekérése | Felhasználó generál egy havi kimutatást, látja kiadás/bevétel eloszlását kategóriánként. |
 | Grafikus megjelenítés | Diagram, grafikon jeleníti meg a költési struktúrát. |
 | Exportálás | Jelentés exportálása PDF formátumban. |
-| Több eszköz / szinkron | Ugyanazzal a fiókkal mobilon és asztali böngészőn is hozzáférhető adatok. |
+
 
