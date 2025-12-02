@@ -51,4 +51,10 @@ class LimitController extends Controller
 
         return redirect()->route('limits.index')->with('success', 'Limits updated successfully!');
     }
+
+    public function reset()
+    {
+        auth()->user()->limits()->delete();
+        return redirect()->route('limits.index')->with('success', 'All limits have been reset.');
+    }
 }

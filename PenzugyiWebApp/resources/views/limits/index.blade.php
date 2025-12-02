@@ -61,11 +61,17 @@
                             </table>
                         </div>
 
-                        <div class="mt-6 flex justify-end">
+                        <div class="mt-6 flex justify-end space-x-4">
+                            <button type="button" onclick="if(confirm('Are you sure you want to reset all limits?')) document.getElementById('reset-form').submit();" class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-700 active:bg-red-900 focus:outline-none focus:border-red-900 focus:ring ring-red-300 disabled:opacity-25 transition ease-in-out duration-150">
+                                Reset
+                            </button>
                             <button type="submit" class="inline-flex items-center px-4 py-2 bg-indigo-600 dark:bg-indigo-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 dark:hover:bg-indigo-600 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 transition ease-in-out duration-150">
                                 Save Changes
                             </button>
                         </div>
+                    </form>
+                    <form id="reset-form" action="{{ route('limits.reset') }}" method="POST" style="display: none;">
+                        @csrf
                     </form>
                 </div>
             </div>

@@ -64,6 +64,7 @@ Route::post('/notifications/{id}/read', [TransactionController::class, 'markNoti
 
 Route::get('/limits', [\App\Http\Controllers\LimitController::class, 'index'])->middleware(['auth', 'verified'])->name('limits.index');
 Route::post('/limits', [\App\Http\Controllers\LimitController::class, 'update'])->middleware(['auth', 'verified'])->name('limits.update');
+Route::post('/limits/reset', [\App\Http\Controllers\LimitController::class, 'reset'])->middleware(['auth', 'verified'])->name('limits.reset');
 Route::get('/statistics', [\App\Http\Controllers\StatisticsController::class, 'index'])->middleware(['auth', 'verified'])->name('statistics.index');
 
 require __DIR__.'/auth.php';
