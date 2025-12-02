@@ -62,8 +62,7 @@ A PenzugyiWebApp célja, hogy egy modern, biztonságos és felhasználóbarát w
 
 ### 4.2 Komponens-/modul struktúra  
 - **Auth modul** — regisztráció, bejelentkezés, felhasználói jogosultságok kezelése  
-- **Transaction modul** — tranzakciók CRUD (Create, Read, Update, Delete)  
-- **Category modul** — kategóriák kezelése, kategória definíció, szerkesztés, törlés  
+- **Transaction modul** — tranzakciók CRUD (Create, Read, Update, Delete)   
 - **Report / Statistics modul** — kimutatások generálása, adat aggregálás, statisztikák, grafikonok  
 - **Export modul** — PDF export  
 - **Frontend UI modul** — reszponzív interfész, mobil + desktop, űrlapok 
