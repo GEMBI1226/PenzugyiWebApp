@@ -18,6 +18,17 @@ class LimitController extends Controller
 
     public function update(Request $request)
     {
+        // Sanitize input: remove spaces from limits
+        $input = $request->all();
+        if (isset($input['limits']) && is_array($input['limits'])) {
+            foreach ($input['limits'] as $key => $value) {
+                if (is_string($value)) {
+                    $input['limits'][$key] = str_replace(' ', '', $value);
+                }
+            }
+        }
+        $request->replace($input);
+
         $validated = $request->validate([
             'limits' => 'array',
             'limits.*' => 'nullable|numeric|min:0',

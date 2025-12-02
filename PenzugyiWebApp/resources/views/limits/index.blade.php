@@ -48,13 +48,12 @@
                                                 {{ $category->name }}
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                                                <input type="number" 
+                                                <input type="text" 
                                                        name="limits[{{ $category->category_id }}]" 
                                                        value="{{ $limits[$category->category_id] ?? '' }}" 
-                                                       class="rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 w-full max-w-xs"
+                                                       class="limit-input rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 w-full max-w-xs"
                                                        placeholder="No limit"
-                                                       min="0"
-                                                       step="1">
+                                                       inputmode="decimal">
                                             </td>
                                         </tr>
                                     @endforeach
@@ -83,5 +82,34 @@
         if (localStorage.getItem('darkMode') === 'true') {
             document.documentElement.classList.add('dark');
         }
+
+        // Limits formatting
+        document.addEventListener('DOMContentLoaded', function() {
+            const limitInputs = document.querySelectorAll('.limit-input');
+            const form = document.querySelector('form');
+
+            function formatAmount(input) {
+                let value = input.value.replace(/\s/g, '');
+                if (!isNaN(value) && value.length > 0) {
+                    input.value = value.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+                }
+            }
+
+            limitInputs.forEach(input => {
+                // Format on load
+                if (input.value) formatAmount(input);
+
+                // Format on input
+                input.addEventListener('input', function() {
+                    formatAmount(this);
+                });
+            });
+
+            form.addEventListener('submit', function() {
+                limitInputs.forEach(input => {
+                    input.value = input.value.replace(/\s/g, '');
+                });
+            });
+        });
     </script>
 </x-app-layout>
