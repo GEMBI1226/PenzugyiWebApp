@@ -21,7 +21,7 @@ Célja, hogy egyszerűen és átláthatóan segítsen a pénzügyi tudatosság n
 
 - **Frontend:** JavaScript, CSS  
 - **Backend:** Laravel / PHP  
-- **Stílus:** Bootstrap / SCSS  
+- **Stílus:** Tailwind CSS 
 
 ---
 
