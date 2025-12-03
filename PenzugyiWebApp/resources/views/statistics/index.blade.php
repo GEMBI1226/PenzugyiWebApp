@@ -100,6 +100,16 @@
                                 <canvas id="trendChart" style="max-height: 400px;"></canvas>
                             </div>
                         </div>
+
+                        <!-- Income vs Expense Bar Chart -->
+                        <div class="mt-12">
+                            <h4 class="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-300">
+                                {{ $period === 'monthly' ? __('Monthly Comparison - Last 12 Months') : __('Monthly Comparison - This Year') }}
+                            </h4>
+                            <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-md border border-gray-200 dark:border-gray-600">
+                                <canvas id="barChart" style="max-height: 400px;"></canvas>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -154,6 +164,9 @@
             }
             if (trendChart) {
                 updateTrendChartForTheme();
+            }
+            if (barChart) {
+                updateBarChartForTheme();
             }
         }
 
@@ -352,6 +365,117 @@
             });
         }
 
+        let barChart = null;
+
+        function initBarChart() {
+            const ctx = document.getElementById('barChart');
+            const isDark = document.documentElement.classList.contains('dark');
+            
+            if (barChart) {
+                barChart.destroy();
+            }
+
+            barChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: trendData.labels,
+                    datasets: [{
+                        label: 'Income',
+                        data: trendData.income,
+                        backgroundColor: 'rgba(34, 197, 94, 0.8)',
+                        borderColor: 'rgba(34, 197, 94, 1)',
+                        borderWidth: 2,
+                        borderRadius: 6,
+                        borderSkipped: false,
+                    }, {
+                        label: 'Expenses',
+                        data: trendData.expenses,
+                        backgroundColor: 'rgba(239, 68, 68, 0.8)',
+                        borderColor: 'rgba(239, 68, 68, 1)',
+                        borderWidth: 2,
+                        borderRadius: 6,
+                        borderSkipped: false,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                color: isDark ? '#e5e7eb' : '#374151',
+                                font: {
+                                    size: 13,
+                                    family: "'Inter', sans-serif",
+                                    weight: '600'
+                                },
+                                padding: 15,
+                                usePointStyle: true,
+                                pointStyle: 'circle'
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: isDark ? 'rgba(31, 41, 55, 0.95)' : 'rgba(255, 255, 255, 0.95)',
+                            titleColor: isDark ? '#e5e7eb' : '#374151',
+                            bodyColor: isDark ? '#e5e7eb' : '#374151',
+                            borderColor: isDark ? '#4b5563' : '#d1d5db',
+                            borderWidth: 1,
+                            padding: 12,
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.dataset.label || '';
+                                    const value = context.parsed.y || 0;
+                                    const formattedValue = Math.round(value).toLocaleString('hu-HU');
+                                    return `${label}: ${formattedValue} Ft`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: isDark ? 'rgba(75, 85, 99, 0.3)' : 'rgba(229, 231, 235, 0.8)',
+                            },
+                            ticks: {
+                                color: isDark ? '#9ca3af' : '#6b7280',
+                                callback: function(value) {
+                                    return Math.round(value).toLocaleString('hu-HU') + ' Ft';
+                                }
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: isDark ? 'rgba(75, 85, 99, 0.3)' : 'rgba(229, 231, 235, 0.8)',
+                            },
+                            ticks: {
+                                color: isDark ? '#9ca3af' : '#6b7280',
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateBarChartForTheme() {
+            const isDark = document.documentElement.classList.contains('dark');
+            barChart.options.plugins.legend.labels.color = isDark ? '#e5e7eb' : '#374151';
+            barChart.options.plugins.tooltip.backgroundColor = isDark ? 'rgba(31, 41, 55, 0.95)' : 'rgba(255, 255, 255, 0.95)';
+            barChart.options.plugins.tooltip.titleColor = isDark ? '#e5e7eb' : '#374151';
+            barChart.options.plugins.tooltip.bodyColor = isDark ? '#e5e7eb' : '#374151';
+            barChart.options.plugins.tooltip.borderColor = isDark ? '#4b5563' : '#d1d5db';
+            barChart.options.scales.y.grid.color = isDark ? 'rgba(75, 85, 99, 0.3)' : 'rgba(229, 231, 235, 0.8)';
+            barChart.options.scales.y.ticks.color = isDark ? '#9ca3af' : '#6b7280';
+            barChart.options.scales.x.grid.color = isDark ? 'rgba(75, 85, 99, 0.3)' : 'rgba(229, 231, 235, 0.8)';
+            barChart.options.scales.x.ticks.color = isDark ? '#9ca3af' : '#6b7280';
+            barChart.update();
+        }
+
         function loadChart(period) {
             // Update button states
             document.querySelectorAll('.period-toggle-btn').forEach(btn => {
@@ -367,6 +491,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             initChart();
             initTrendChart();
+            initBarChart();
         });
     </script>
 
